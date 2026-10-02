@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#F7F5F0" />
+<title>ورود به سایت</title>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+    background: #F7F5F0;
+    color: #2A2A2A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: calc(20px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom)) 18px;
+    min-height: 100dvh;
+    height: 100dvh;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 4vw, 26px);
+    animation: fade 0.7s ease;
+  }
+
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .notice {
+    text-align: center;
+    font-size: clamp(17px, 5vw, 22px);
+    font-weight: 700;
+    line-height: 2;
+    color: #8B6F1A;
+    padding: clamp(12px, 3.5vw, 18px) clamp(10px, 3vw, 16px);
+    border-radius: 16px;
+    background: #FDF8E8;
+    border: 1px solid #E8D9A8;
+    overflow-wrap: anywhere;
+  }
+
+  .btn {
+    width: 100%;
+    min-height: clamp(70px, 18vw, 88px);
+    border: none;
+    border-radius: 18px;
+    font-family: inherit;
+    font-size: clamp(20px, 5.6vw, 26px);
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    overflow-wrap: anywhere;
+    padding: 0 16px;
+    text-align: center;
+    letter-spacing: 0.2px;
+  }
+
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  .btn-primary {
+    color: #FFFFFF;
+    background: linear-gradient(135deg, #D4A82A 0%, #C9A227 50%, #B8921F 100%);
+    box-shadow: 0 8px 22px rgba(201,162,39,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.05);
+  }
+
+  .btn-copy {
+    color: #2A2A2A;
+    background: #EDE8DC;
+    border: 1px solid #D8D0BE;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  }
+
+  .btn-copy:hover {
+    filter: brightness(1.03);
+  }
+
+  .url-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border: 1px solid #E0D8C8;
+    border-radius: 16px;
+    padding: clamp(16px, 4vw, 22px) 16px;
+    direction: ltr;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  }
+
+  .url-box input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #8B6F1A;
+    font-family: inherit;
+    font-size: clamp(17px, 5vw, 22px);
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.4px;
+    overflow-wrap: anywhere;
+  }
+
+  .hint {
+    font-size: clamp(14px, 4vw, 17px);
+    color: #6B6B6B;
+    line-height: 2.1;
+    text-align: center;
+    padding: 0 6px;
+    overflow-wrap: anywhere;
+  }
+
+  .hint b {
+    color: #C9A227;
+    font-weight: 800;
+  }
+
+  .toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(28px + env(safe-area-inset-bottom));
+    transform: translateX(-50%) translateY(20px);
+    background: #C9A227;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: clamp(14px, 4vw, 17px);
+    font-weight: 800;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <p class="notice">
+    برای تجربه بهتر و بدون اختلال،<br>
+    لطفاً پیش از ورود به سایت<br>
+    فیلترشکن خود را خاموش نمایید.
+  </p>
+
+  <button class="btn btn-primary" id="enterBtn">
+    ورود به سایت
+  </button>
+
+  <div class="url-box">
+    <input
+      id="urlInput"
+      type="text"
+      value="iran98ir.github.io/Job98/"
+      readonly
+    />
+  </div>
+
+  <button class="btn btn-copy" id="copyBtn">
+    کپی آدرس سایت
+  </button>
+
+  <p class="hint">
+    اگر دکمه ورود باز نشد، آدرس بالا را <b>کپی</b> کنید<br>
+    و در مرورگر گوشی (کروم / سافاری) باز کنید.
+  </p>
+
+</div>
+
+<div class="toast" id="toast">
+  کپی شد
+</div>
+
+<script>
+  /* ===== آدرس اصلی سایت ===== */
+  var SITE_URL = "https://iran98ir.github.io/Job98/";
+  var SITE_URL_CLEAN = "iran98ir.github.io/Job98/";
+
+  var enterBtn = document.getElementById("enterBtn");
+  var copyBtn  = document.getElementById("copyBtn");
+  var urlInput = document.getElementById("urlInput");
+  var toast    = document.getElementById("toast");
+
+  function isInApp() {
+    var ua = navigator.userAgent || navigator.vendor || window.opera;
+
+    return /Instagram|FBAN|FBAV|FB_IAB|Line|Telegram|Twitter|LinkedIn|WhatsApp|Snapchat|Pinterest|MicroMessenger/i.test(ua);
+  }
+
+  function isAndroid() {
+    return /Android/i.test(navigator.userAgent);
+  }
+
+  function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  }
+
+  /* ===== دکمه ورود به سایت ===== */
+  enterBtn.addEventListener("click", function () {
+
+    var target = SITE_URL;
+
+    if (isInApp()) {
+
+      /* اندروید */
+      if (isAndroid()) {
+
+        var intentUrl =
+          "intent://" +
+          target.replace(/^https?:\/\//, "") +
+          "#Intent;scheme=https;package=com.android.chrome;end";
+
+        window.location.href = intentUrl;
+
+        setTimeout(function () {
+          window.location.href = target;
+        }, 800);
+
+        return;
+      }
+
+      /* آیفون / آیپد */
+      if (isIOS()) {
+
+        var igUrl =
+          "instagram://extbrowser/?url=" +
+          encodeURIComponent(target);
+
+        var tgUrl =
+          "tg://openurl?url=" +
+          encodeURIComponent(target);
+
+        window.location.href = igUrl;
+
+        setTimeout(function () {
+          window.location.href = tgUrl;
+        }, 500);
+
+        setTimeout(function () {
+          window.open(target, "_blank");
+        }, 1200);
+
+        return;
+      }
+
+      /* سایر مرورگرهای داخلی */
+      window.open(target, "_blank");
+      return;
+    }
+
+    /* مرورگر معمولی */
+    window.open(target, "_blank");
+  });
+
+  /* ===== دکمه کپی ===== */
+  copyBtn.addEventListener("click", function () {
+
+    var text = SITE_URL_CLEAN;
+
+    function done() {
+
+      copyBtn.textContent = "کپی شد";
+
+      showToast();
+
+      setTimeout(function () {
+        copyBtn.textContent = "کپی آدرس سایت";
+      }, 1800);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+
+      navigator.clipboard.writeText(text)
+        .then(done)
+        .catch(function () {
+          fallbackCopy(text, done);
+        });
+
+    } else {
+
+      fallbackCopy(text, done);
+
+    }
+  });
+
+  function fallbackCopy(text, cb) {
+
+    try {
+
+      urlInput.removeAttribute("readonly");
+
+      urlInput.select();
+      urlInput.setSelectionRange(0, 99999);
+
+      document.execCommand("copy");
+
+      urlInput.setAttribute("readonly", "readonly");
+
+      cb();
+
+    } catch (e) {
+
+      urlInput.setAttribute("readonly", "readonly");
+
+    }
+  }
+
+  /* ===== پیام کپی شد ===== */
+  var toastTimer;
+
+  function showToast() {
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(function () {
+      toast.classList.remove("show");
+    }, 1600);
+  }
+
+  /* ===== جلوگیری از زوم و حرکت ناخواسته ===== */
+  document.addEventListener("gesturestart", function (e) {
+    e.preventDefault();
+  });
+
+  document.addEventListener("touchmove", function (e) {
+
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+
+  }, { passive: false });
+
+</script>
+
+</body>
+  </html>
